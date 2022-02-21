@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 const PORT = 8080;
 
@@ -6,6 +7,16 @@ const urlDatabase = {
   'b2xVn2': 'http://www.lighthouselabs.ca',
   '9sm5xk': 'http://www.google.com'
 };
+
+const generateRandomString = (num) => {
+  const minVal = 35 ** 5;
+  const randVal = Math.floor(Math.random() * minVal) + minVal;
+  return randVal.toString(35);
+};
+
+console.log(generateRandomString());
+
+app.use(bodyParser.urlencoded({extended:true}));
 
 app.set('view engine', 'ejs');
 
@@ -16,6 +27,12 @@ app.get('/', (req, res)=>{
 app.get('/urls', (req, res)=>{
   const templateVars = { urls: urlDatabase };
   res.render('urls_index', templateVars);
+});
+
+app.post('/urls', (req, res)=>{
+  const {longURL} = req.body;
+  console.log(longURL);
+  res.send('OK');
 });
 
 app.get('/urls/new', (req, res)=>{
