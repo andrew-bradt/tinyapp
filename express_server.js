@@ -14,8 +14,6 @@ const generateRandomString = (num) => {
   return randVal.toString(35);
 };
 
-console.log(generateRandomString());
-
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.set('view engine', 'ejs');
@@ -32,6 +30,8 @@ app.get('/urls', (req, res)=>{
 app.post('/urls', (req, res)=>{
   const {longURL} = req.body;
   console.log(longURL);
+  const id = generateRandomString();
+  urlDatabase[id] = longURL;
   res.send('OK');
 });
 
