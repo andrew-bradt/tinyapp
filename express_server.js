@@ -32,7 +32,7 @@ app.post('/urls', (req, res)=>{
   console.log(longURL);
   const id = generateRandomString();
   urlDatabase[id] = longURL;
-  res.send('OK');
+  res.redirect(`/urls/${id}`);
 });
 
 app.get('/urls/new', (req, res)=>{
