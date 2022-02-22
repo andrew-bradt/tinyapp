@@ -115,11 +115,12 @@ app.post('/register', (req, res)=>{
     password
   };
   users[id] = user;
+  res.cookie('user_id', id);
+  res.redirect('/urls');
 });
 // app.use('*', (req, res) => res.status(404).send('The page you have requested does not exist.'));
 // ~*~*~*~*~*~*~*~*~*~*~*~*
 
 app.listen(PORT, ()=>{
-  console.log(users);
   console.log(`Example app listening on port ${PORT}!`);
 });
