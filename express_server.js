@@ -8,11 +8,7 @@ const urlDatabase = {
   '9sm5xk': 'http://www.google.com'
 };
 
-const generateRandomString = () => {
-  const minVal = 35 ** 5;
-  const randVal = Math.floor(Math.random() * minVal) + minVal;
-  return randVal.toString(35);
-};
+const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
