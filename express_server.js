@@ -96,6 +96,11 @@ app.post('/logout', (req, res)=>{
   res.clearCookie('username');
   res.redirect('/urls');
 });
+
+app.get('/register', (req, res)=>{
+  const templateVars = {username: req.cookies['username']};
+  res.render('register', templateVars);
+});
 // app.use('*', (req, res) => res.status(404).send('The page you have requested does not exist.'));
 // ~*~*~*~*~*~*~*~*~*~*~*~*
 
