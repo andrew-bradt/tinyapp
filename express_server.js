@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const res = require('express/lib/response');
 const app = express();
 const PORT = 8080;
 
@@ -52,6 +53,11 @@ app.post('/urls/:shortURL/delete', (req, res)=>{
   const {shortURL} = req.params;
   delete urlDatabase[shortURL];
   res.redirect('/urls');
+});
+
+app.post('/urls/:shortURL/edit', (req, res)=>{
+  const {shortURL} = req.body;
+  res.redirect(`/urls/${shortURL}`);
 });
 
 app.get('/u/:shortURL', (req,res)=>{
