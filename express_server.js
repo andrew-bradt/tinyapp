@@ -108,16 +108,18 @@ app.get('/register', (req, res)=>{
 
 app.post('/register', (req, res)=>{
   const {email, password} = req.body;
+  const id = `user${generateRandomString()}`;
   const user = {
-    id: `user${generateRandomString()}`,
+    id,
     email,
     password
   };
-  
+  users[id] = user;
 });
 // app.use('*', (req, res) => res.status(404).send('The page you have requested does not exist.'));
 // ~*~*~*~*~*~*~*~*~*~*~*~*
 
 app.listen(PORT, ()=>{
+  console.log(users);
   console.log(`Example app listening on port ${PORT}!`);
 });
