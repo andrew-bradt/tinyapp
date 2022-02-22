@@ -15,11 +15,6 @@ const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());
 app.set('view engine', 'ejs');
-app.use('/urls/:shortURL', (req, res, next)=>{
-  const {shortURL} = req.params;
-  if (!urlDatabase[shortURL]) return res.status(404).send('The Short URL you have requested does not exist.');
-  next();
-});
 
 // ~*~*~*~*~*~* ENDPOINTS ~*~*~*~*~*~*
 app.get('/', (req, res)=>{
