@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 8080;
 
@@ -12,6 +13,7 @@ const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 
 // ~*~*~*~*~*~* MIDDLEWARE ~*~*~*~*~*~*
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.use('/urls/:shortURL', (req, res, next)=>{
   const {shortURL} = req.params;
@@ -26,7 +28,10 @@ app.get('/', (req, res)=>{
 
 
 app.get('/urls', (req, res)=>{
-  const templateVars = { urls: urlDatabase };
+  const templateVars = {
+    username: req.cookies['username'],
+    urls: urlDatabase
+  };
   res.render('urls_index', templateVars);
 });
 
@@ -49,6 +54,7 @@ app.get('/urls/new', (req, res)=>{
 app.get('/urls/:shortURL', (req, res)=>{
   const {shortURL} = req.params;
   const templateVars = {
+    username: req.cookies['username'],
     shortURL,
     longURL: urlDatabase[shortURL]
   };
@@ -58,8 +64,6 @@ app.get('/urls/:shortURL', (req, res)=>{
 app.post('/urls/:shortURL', (req, res)=>{
   const {shortURL} = req.params;
   const {longURL} = req.body;
-  console.log('shortURL', shortURL);
-  console.log('longURL', longURL);
   urlDatabase[shortURL] = longURL;
   res.redirect('/urls');
 });
@@ -89,6 +93,11 @@ app.get('/urls.json', (req, res)=>{
 app.post('/login', (req, res)=>{
   const {username} = req.body;
   res.cookie('username', username);
+  res.redirect('/urls');
+});
+
+app.post('/logout', (req, res)=>{
+  res.clearCookie('username');
   res.redirect('/urls');
 });
 // app.use('*', (req, res) => res.status(404).send('The page you have requested does not exist.'));
