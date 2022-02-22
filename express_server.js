@@ -10,8 +10,14 @@ const urlDatabase = {
 
 const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 
+// ~*~*~*~*~*~* MIDDLEWARE ~*~*~*~*~*~*
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
+app.use('/urls/:shortURL', (req, res, next)=>{
+  const {shortURL} = req.params;
+  if (!urlDatabase[shortURL]) return res.status(404).send('The Short URL you have requested does not exist.');
+  next();
+});
 
 // ~*~*~*~*~*~* ENDPOINTS ~*~*~*~*~*~*
 app.get('/', (req, res)=>{
@@ -80,6 +86,7 @@ app.get('/urls.json', (req, res)=>{
   res.json(urlDatabase);
 });
 
+app.use('*', (req, res) => res.status(404).send('The page you have requested does not exist.'));
 // ~*~*~*~*~*~*~*~*~*~*~*~*
 
 app.listen(PORT, ()=>{
