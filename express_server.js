@@ -86,7 +86,8 @@ app.get('/urls.json', (req, res)=>{
   res.json(urlDatabase);
 });
 
-app.use('*', (req, res) => res.status(404).send('The page you have requested does not exist.'));
+
+// app.use('*', (req, res) => res.status(404).send('The page you have requested does not exist.'));
 // ~*~*~*~*~*~*~*~*~*~*~*~*
 
 app.listen(PORT, ()=>{
