@@ -23,11 +23,13 @@ app.get('/', (req, res)=>{
   res.send('Hello!');
 });
 
+// BROWSE
 app.get('/urls', (req, res)=>{
   const templateVars = { urls: urlDatabase };
   res.render('urls_index', templateVars);
 });
 
+// ADD
 app.post('/urls', (req, res)=>{
   const {longURL} = req.body;
   console.log(longURL);
@@ -40,6 +42,7 @@ app.get('/urls/new', (req, res)=>{
   res.render('urls_new');
 });
 
+// READ
 app.get('/urls/:shortURL', (req, res)=>{
   const {shortURL} = req.params;
   const templateVars = {
@@ -58,15 +61,11 @@ app.post('/urls/:shortURL', (req, res)=>{
   res.redirect('/urls');
 });
 
+// DELETE
 app.post('/urls/:shortURL/delete', (req, res)=>{
   const {shortURL} = req.params;
   delete urlDatabase[shortURL];
   res.redirect('/urls');
-});
-
-app.post('/urls/:shortURL/edit', (req, res)=>{
-  const {shortURL} = req.params;
-  res.redirect(`/urls/${shortURL}`);
 });
 
 app.get('/u/:shortURL', (req,res)=>{
