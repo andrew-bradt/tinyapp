@@ -9,6 +9,10 @@ const urlDatabase = {
   '9sm5xk': 'http://www.google.com'
 };
 
+const users = {
+ 
+};
+
 const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 
 // ~*~*~*~*~*~* MIDDLEWARE ~*~*~*~*~*~*
@@ -100,6 +104,16 @@ app.post('/logout', (req, res)=>{
 app.get('/register', (req, res)=>{
   const templateVars = {username: req.cookies['username']};
   res.render('register', templateVars);
+});
+
+app.post('/register', (req, res)=>{
+  const {email, password} = req.body;
+  const user = {
+    id: `user${generateRandomString()}`,
+    email,
+    password
+  };
+  
 });
 // app.use('*', (req, res) => res.status(404).send('The page you have requested does not exist.'));
 // ~*~*~*~*~*~*~*~*~*~*~*~*
