@@ -27,7 +27,6 @@
             <td><%= urls[url]%></td>
             <td>
               <form class="form-inline" action="/urls/<%= url %>/edit" method="POST">
-                  <input value="<%= url %>" name="shortURL" hidden>
                   <button type="submit" class="btn btn-outline-primary">Edit</button>
               </form>
             </td>
