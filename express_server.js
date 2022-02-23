@@ -15,6 +15,15 @@ const users = {
 
 const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 
+const isEmailRegistered = (email) => {
+  for (const user in users) {
+    if (users[user].email === email) {
+      return true;
+    }
+  }
+  return false;
+};
+
 // ~*~*~*~*~*~* MIDDLEWARE ~*~*~*~*~*~*
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());
