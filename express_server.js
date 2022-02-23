@@ -36,6 +36,7 @@ app.get('/', (req, res)=>{
 
 
 app.get('/urls', (req, res)=>{
+  console.log(users);
   const templateVars = {
     user: users[req.cookies['user_id']],
     urls: urlDatabase
@@ -121,6 +122,9 @@ app.post('/register', (req, res)=>{
   const {email, password} = req.body;
   if (!email || !password) {
     return res.status(400).send('You must provide an email and a password to register for an account.');
+  }
+  if (isEmailRegistered(email)) {
+    return res.status(400).send('An account has already been created with this email address.');
   }
   const id = `user${generateRandomString()}`;
   const user = {
