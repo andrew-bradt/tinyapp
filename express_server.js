@@ -62,9 +62,8 @@ app.get('/urls/new', (req, res)=>{
 
 app.get('/urls/:shortURL', (req, res)=>{
   const {shortURL} = req.params;
-  const user = users[req.cookies[user.id]];
   const templateVars = {
-    user,
+    user: users[req.cookies['user_id']],
     shortURL,
     longURL: urlDatabase[shortURL]
   };
