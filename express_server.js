@@ -100,6 +100,10 @@ app.get('/urls.json', (req, res)=>{
   res.json(urlDatabase);
 });
 
+app.get('/login', (req, res)=>{
+  res.render('login', {});
+});
+
 app.post('/login', (req, res)=>{
   // const {username} = req.body;
   // res.cookie('username', username);
@@ -115,7 +119,7 @@ app.get('/register', (req, res)=>{
   const templateVars = {
     user: users[req.cookies['user_id']]
   };
-  res.render('register', templateVars);
+  res.render('/register', templateVars);
 });
 
 app.post('/register', (req, res)=>{
