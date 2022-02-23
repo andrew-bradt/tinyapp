@@ -20,6 +20,11 @@ const users = {
     id: 'user3t402k',
     email: 'test@gmail.com',
     password: 'test'
+  },
+  user999999: {
+    id: 'user999999',
+    email: 'a@a.com',
+    password: 'a'
   }
 };
 
@@ -120,7 +125,7 @@ app.post('/urls/:shortURL/delete', (req, res)=>{
 
 app.get('/u/:shortURL', (req,res)=>{
   const {shortURL} = req.params;
-  const longURL = urlDatabase[shortURL];
+  const {longURL} = urlDatabase[shortURL];
   res.redirect(longURL);
 });
 
