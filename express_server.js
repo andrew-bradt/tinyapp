@@ -9,17 +9,31 @@ const urlDatabase = {
   '9sm5xk': 'http://www.google.com'
 };
 
-const users = {};
+const users = {
+  'user9aksmj': {
+    id: 'user9aksmj',
+    email: 'test@gmail.com',
+    password: 'test'
+  }
+};
 
 const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 
 const isEmailRegistered = (email) => {
   for (const user in users) {
     if (users[user].email === email) {
-      return true;
+      return users[user].id;
     }
   }
   return false;
+};
+
+const isPasswordCorrect = (email, password) => {
+  const id = Object.keys(users).filter(key => users[key].email === email)[0];
+  if (!id || users[id].password !== password) {
+    return false;
+  }
+  return id;
 };
 
 // ~*~*~*~*~*~* MIDDLEWARE ~*~*~*~*~*~*
@@ -101,6 +115,8 @@ app.get('/login', (req, res)=>{
 });
 
 app.post('/login', (req, res)=>{
+  const {email, password} = req.body;
+  res.cookie('user_id', id);
   res.redirect('/urls');
 });
 
