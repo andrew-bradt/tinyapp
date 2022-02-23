@@ -43,10 +43,10 @@ const isPasswordCorrect = (id, password) => {
   return (users[id].password === password) ? id : false;
 };
 
-const getUsersURLs = (id, urlData) => {
+const urlsForUser = (id) => {
   const urls = {};
-  for (const shortURL in urlData) {
-    const {userID, longURL} = urlData[shortURL];
+  for (const shortURL in urlDatabase) {
+    const {userID, longURL} = urlDatabase[shortURL];
     if (userID === id) {
       urls[shortURL] = longURL;
     }
@@ -69,7 +69,7 @@ app.get('/urls', (req, res)=>{
   const {'user_id':userID} = req.cookies;
   const templateVars = {
     user: users[userID],
-    urls: getUsersURLs(userID, urlDatabase)
+    urls: urlsForUser(userID, urlDatabase)
   };
   res.render('urls_index', templateVars);
 });
