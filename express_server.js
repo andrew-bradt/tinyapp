@@ -75,13 +75,17 @@ app.get('/urls', (req, res)=>{
 });
 
 app.post('/urls', (req, res)=>{
-  if (!req.cookies['user_id']) {
+  const userID = req.cookies['user_id'];
+  if (!userID) {
     return res.status(403).send('You must be signed in to add a URL');
   }
   const {longURL} = req.body;
-  const id = generateRandomString();
-  urlDatabase[id] = longURL;
-  res.redirect(`/urls/${id}`);
+  const shortURL = generateRandomString();
+  urlDatabase[shortURL] = {
+    longURL,
+    userID
+  };
+  res.redirect(`/urls/${shortURL}`);
 });
 
 
