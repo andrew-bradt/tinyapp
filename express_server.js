@@ -54,6 +54,11 @@ const urlsForUser = (id) => {
   return urls;
 };
 
+const doesUserOwnURL = (id, shortURL) => {
+  const usersURLs = urlsForUser(id);
+  return usersURLs[shortURL] !== undefined;
+};
+
 // ~*~*~*~*~*~* MIDDLEWARE ~*~*~*~*~*~*
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());
