@@ -4,18 +4,8 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 8080;
 
-const urlDatabase = {
-  'b2xVn2': 'http://www.lighthouselabs.ca',
-  '9sm5xk': 'http://www.google.com'
-};
-
-const users = {
-  'user9aksmj': {
-    id: 'user9aksmj',
-    email: 'test@gmail.com',
-    password: 'test'
-  }
-};
+const urlDatabase = {};
+const users = {};
 
 const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 
@@ -59,6 +49,7 @@ app.post('/urls', (req, res)=>{
   const id = generateRandomString();
   urlDatabase[id] = longURL;
   res.redirect(`/urls/${id}`);
+  console.log('urlDatabase after adding', urlDatabase);
 });
 
 
@@ -117,7 +108,8 @@ app.get('/login', (req, res)=>{
     return res.redirect('/urls');
   }
   const templateVars = {
-    user: users[req.cookies['user_id']]
+    user: users[req.cookies['user_id']],
+    urls: urlDatabase
   };
   res.render('login', templateVars);
 });
@@ -170,3 +162,6 @@ app.post('/register', (req, res)=>{
 app.listen(PORT, ()=>{
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+console.log('users at start', users);
+console.log('urlDatabase at start', urlDatabase);
