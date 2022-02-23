@@ -118,7 +118,7 @@ app.get('/register', (req, res)=>{
   const templateVars = {
     user: users[req.cookies['user_id']]
   };
-  res.render('/register', templateVars);
+  res.render('register', templateVars);
 });
 
 app.post('/register', (req, res)=>{
