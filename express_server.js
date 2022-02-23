@@ -108,6 +108,9 @@ app.get('/urls/new', (req, res)=>{
 app.get('/urls/:shortURL', (req, res)=>{
   const {shortURL} = req.params;
   const id = req.cookies['user_id'];
+  if (!doesUserOwnURL(id, shortURL)) {
+    return res.status(403).send('Resource does not exist or you are unauthorized.');
+  }
   const templateVars = {
     user: users[id],
     shortURL,
@@ -117,8 +120,12 @@ app.get('/urls/:shortURL', (req, res)=>{
 });
 
 app.post('/urls/:shortURL', (req, res)=>{
+  const id = req.cookies['user_id'];
   const {shortURL} = req.params;
   const {longURL} = req.body;
+  if (!doesUserOwnURL(id, shortURL)) {
+    return res.status(403).send('Resource does not exist or you are unauthorized.');
+  }
   urlDatabase[shortURL].longURL = longURL;
   res.redirect('/urls');
 });
@@ -126,7 +133,11 @@ app.post('/urls/:shortURL', (req, res)=>{
 
 
 app.post('/urls/:shortURL/delete', (req, res)=>{
+  const id = req.cookies['user_id'];
   const {shortURL} = req.params;
+  if (!doesUserOwnURL(id, shortURL)) {
+    return res.status(403).send('Resource does not exist or you are unauthorized.');
+  }
   delete urlDatabase[shortURL];
   res.redirect('/urls');
 });
