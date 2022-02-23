@@ -119,6 +119,9 @@ app.get('/register', (req, res)=>{
 
 app.post('/register', (req, res)=>{
   const {email, password} = req.body;
+  if (!email || !password) {
+    return res.status(400).send('You must provide an email and a password to register for an account.');
+  }
   const id = `user${generateRandomString()}`;
   const user = {
     id,
