@@ -107,6 +107,9 @@ app.get('/urls.json', (req, res)=>{
 });
 
 app.get('/login', (req, res)=>{
+  if (req.cookies['user_id']) {
+    return res.redirect('/urls');
+  }
   const templateVars = {
     user: users[req.cookies['user_id']]
   };
@@ -129,6 +132,9 @@ app.post('/logout', (req, res)=>{
 });
 
 app.get('/register', (req, res)=>{
+  if (req.cookies['user_id']) {
+    return res.redirect('/urls');
+  }
   const templateVars = {
     user: users[req.cookies['user_id']]
   };
