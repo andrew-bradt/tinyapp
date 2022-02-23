@@ -110,7 +110,7 @@ app.get('/urls/:shortURL', (req, res)=>{
 app.post('/urls/:shortURL', (req, res)=>{
   const {shortURL} = req.params;
   const {longURL} = req.body;
-  urlDatabase[shortURL] = longURL;
+  urlDatabase[shortURL].longURL = longURL;
   res.redirect('/urls');
 });
 
