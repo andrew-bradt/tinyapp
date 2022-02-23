@@ -5,7 +5,13 @@ const app = express();
 const PORT = 8080;
 
 const urlDatabase = {};
-const users = {};
+const users = {
+  user3t402k: {
+    id: 'user3t402k',
+    email: 'test@gmail.com',
+    password: 'test'
+  }
+};
 
 const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 
@@ -49,7 +55,6 @@ app.post('/urls', (req, res)=>{
   const id = generateRandomString();
   urlDatabase[id] = longURL;
   res.redirect(`/urls/${id}`);
-  console.log('urlDatabase after adding', urlDatabase);
 });
 
 
@@ -116,6 +121,9 @@ app.get('/login', (req, res)=>{
 
 app.post('/login', (req, res)=>{
   const {email, password} = req.body;
+  if (!email || !password) {
+    return res.status(400).send('You must provide an email and a password to login');
+  }
   const id = isEmailRegistered(email);
   if (!id || !isPasswordCorrect(id, password)) {
     return res.status(403).send('Invalid email or password.');
@@ -162,6 +170,3 @@ app.post('/register', (req, res)=>{
 app.listen(PORT, ()=>{
   console.log(`Example app listening on port ${PORT}!`);
 });
-
-console.log('users at start', users);
-console.log('urlDatabase at start', urlDatabase);
