@@ -28,12 +28,8 @@ const isEmailRegistered = (email) => {
   return false;
 };
 
-const isPasswordCorrect = (email, password) => {
-  const id = Object.keys(users).filter(key => users[key].email === email)[0];
-  if (!id || users[id].password !== password) {
-    return false;
-  }
-  return id;
+const isPasswordCorrect = (id, password) => {
+  return (users[id].password === password) ? id : false;
 };
 
 // ~*~*~*~*~*~* MIDDLEWARE ~*~*~*~*~*~*
@@ -116,6 +112,10 @@ app.get('/login', (req, res)=>{
 
 app.post('/login', (req, res)=>{
   const {email, password} = req.body;
+  const id = isEmailRegistered(email);
+  if (!id || !isPasswordCorrect(id, password)) {
+    return res.status(403).send('Invalid email or password.');
+  }
   res.cookie('user_id', id);
   res.redirect('/urls');
 });
