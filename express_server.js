@@ -9,9 +9,7 @@ const urlDatabase = {
   '9sm5xk': 'http://www.google.com'
 };
 
-const users = {
- 
-};
+const users = {};
 
 const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 
@@ -36,7 +34,6 @@ app.get('/', (req, res)=>{
 
 
 app.get('/urls', (req, res)=>{
-  console.log(users);
   const templateVars = {
     user: users[req.cookies['user_id']],
     urls: urlDatabase
@@ -104,8 +101,6 @@ app.get('/login', (req, res)=>{
 });
 
 app.post('/login', (req, res)=>{
-  // const {username} = req.body;
-  // res.cookie('username', username);
   res.redirect('/urls');
 });
 
@@ -139,7 +134,6 @@ app.post('/register', (req, res)=>{
   res.cookie('user_id', id);
   res.redirect('/urls');
 });
-// app.use('*', (req, res) => res.status(404).send('The page you have requested does not exist.'));
 // ~*~*~*~*~*~*~*~*~*~*~*~*
 
 app.listen(PORT, ()=>{
