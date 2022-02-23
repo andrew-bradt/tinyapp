@@ -20,12 +20,12 @@ const users = {
   user3t402k: {
     id: 'user3t402k',
     email: 'test@gmail.com',
-    password: 'test'
+    password: bcrypt.hashSync('test', 10)
   },
   user999999: {
     id: 'user999999',
     email: 'a@a.com',
-    password: 'a'
+    password: bcrypt.hashSync('test', 10)
   }
 };
 
@@ -41,7 +41,7 @@ const isEmailRegistered = (email) => {
 };
 
 const isPasswordCorrect = (id, password) => {
-  return (users[id].password === password) ? id : false;
+  return (bcrypt.compareSync(password, users[id].password)) ? id : false;
 };
 
 const urlsForUser = (id) => {
