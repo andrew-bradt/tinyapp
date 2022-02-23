@@ -4,7 +4,17 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = 8080;
 
-const urlDatabase = {};
+const urlDatabase = {
+  b6UTxQ: {
+    longURL: "https://www.google.ca",
+    userID: "user3t402k"
+  },
+  abcdef: {
+    longURL: "https://www.google.ca",
+    userID: "user999999"
+  }
+};
+
 const users = {
   user3t402k: {
     id: 'user3t402k',
@@ -26,6 +36,17 @@ const isEmailRegistered = (email) => {
 
 const isPasswordCorrect = (id, password) => {
   return (users[id].password === password) ? id : false;
+};
+
+const getUsersURLs = (id, urlData) => {
+  const urls = {};
+  for (const shortURL in urlData) {
+    const {userID, longURL} = urlData[shortURL];
+    if (userID === id) {
+      urls[shortURL] = longURL;
+    }
+  }
+  return urls;
 };
 
 // ~*~*~*~*~*~* MIDDLEWARE ~*~*~*~*~*~*
