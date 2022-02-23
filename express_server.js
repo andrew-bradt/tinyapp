@@ -52,6 +52,9 @@ app.get('/urls', (req, res)=>{
 });
 
 app.post('/urls', (req, res)=>{
+  if (!req.cookies['user_id']) {
+    return res.status(403).send('You must be signed in to add a URL');
+  }
   const {longURL} = req.body;
   const id = generateRandomString();
   urlDatabase[id] = longURL;
