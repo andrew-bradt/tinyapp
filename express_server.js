@@ -174,6 +174,7 @@ app.post('/login', (req, res)=>{
     return res.status(400).send('You must provide an email and a password to login');
   }
   const userID = getUserByEmail(email, users);
+  console.log('userID in post/login', userID);
   if (!userID || !isPasswordCorrect(userID, password)) {
     return res.status(403).send('Invalid email or password.');
   }
@@ -213,6 +214,7 @@ app.post('/register', (req, res)=>{
   users[userID] = user;
   req.session['user_id'] = userID;
   res.redirect('/urls');
+  console.log('users after registering', users);
 });
 // ~*~*~*~*~*~*~*~*~*~*~*~*
 
