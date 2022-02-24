@@ -87,47 +87,47 @@ app.get('/urls/new', (req, res)=>{
 
 
 
-app.get('/urls/:shortURL', (req, res)=>{
-  const {shortURL} = req.params;
+app.get('/urls/:id', (req, res)=>{
+  const {id} = req.params;
   const userID = req.session['user_id'];
   const ownedURLs = urlsForUser(userID, urlDatabase);
-  if (!doesUserOwnURL(ownedURLs, shortURL)) {
+  if (!doesUserOwnURL(ownedURLs, id)) {
     return res.status(403).send('Resource does not exist or you are unauthorized.');
   }
   const templateVars = {
     user: users[userID],
-    shortURL,
-    longURL: urlDatabase[shortURL].longURL
+    id,
+    longURL: urlDatabase[id].longURL
   };
   res.render('urls_show', templateVars);
 });
 
-app.put('/urls/:shortURL', (req, res)=>{
+app.put('/urls/:id', (req, res)=>{
   const userID = req.session['user_id'];
-  const {shortURL} = req.params;
+  const {id} = req.params;
   const {longURL} = req.body;
   const ownedURLs = urlsForUser(userID, urlDatabase);
-  if (!doesUserOwnURL(ownedURLs, shortURL)) {
+  if (!doesUserOwnURL(ownedURLs, id)) {
     return res.status(403).send('Resource does not exist or you are unauthorized.');
   }
-  urlDatabase[shortURL].longURL = longURL;
+  urlDatabase[id].longURL = longURL;
   res.redirect('/urls');
 });
 
-app.delete('/urls/:shortURL', (req, res)=>{
+app.delete('/urls/:id', (req, res)=>{
   const userID = req.session['user_id'];
-  const {shortURL} = req.params;
+  const {id} = req.params;
   const ownedURLs = urlsForUser(userID, urlDatabase);
-  if (!doesUserOwnURL(ownedURLs, shortURL)) {
+  if (!doesUserOwnURL(ownedURLs, id)) {
     return res.status(403).send('Resource does not exist or you are unauthorized.');
   }
-  delete urlDatabase[shortURL];
+  delete urlDatabase[id];
   res.redirect('/urls');
 });
 
-app.get('/u/:shortURL', (req,res)=>{
-  const {shortURL} = req.params;
-  const {longURL} = urlDatabase[shortURL];
+app.get('/u/:id', (req,res)=>{
+  const {id} = req.params;
+  const {longURL} = urlDatabase[id];
   res.redirect(longURL);
 });
 
