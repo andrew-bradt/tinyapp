@@ -106,7 +106,8 @@ app.post('/urls/:shortURL', (req, res)=>{
   const userID = req.session['user_id'];
   const {shortURL} = req.params;
   const {longURL} = req.body;
-  if (!doesUserOwnURL(userID, shortURL)) {
+  const ownedURLs = urlsForUser(userID, urlDatabase);
+  if (!doesUserOwnURL(ownedURLs, shortURL)) {
     return res.status(403).send('Resource does not exist or you are unauthorized.');
   }
   urlDatabase[shortURL].longURL = longURL;
