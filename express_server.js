@@ -12,23 +12,27 @@ const isPasswordCorrect = (id, password) => {
   return (bcrypt.compareSync(password, users[id].password)) ? id : false;
 };
 
-const analyticsDatabase = {
-  totalVisits : 0,
-  totalUniqueVisitors: 0,
-  visitorLog: {
-    
+class URL {
+  constructor({userID, longURL}) {
+    this.longURL = longURL;
+    this.userID = userID;
+    this.analytics = {
+      totalVisits : 0,
+      totalUniqueVisitors: 0,
+      visitorLog: []
+    };
   }
-};
+}
 
 const urlDatabase = {
-  b6UTxQ: {
-    longURL: "https://www.google.ca",
-    userID: "user3t402k"
-  },
-  abcdef: {
-    longURL: "https://www.google.ca",
-    userID: "user999999"
-  }
+  // b6UTxQ: {
+  //   longURL: "https://www.google.ca",
+  //   userID: "user3t402k"
+  // },
+  // abcdef: {
+  //   longURL: "https://www.google.ca",
+  //   userID: "user999999"
+  // }
 };
 
 const users = {
