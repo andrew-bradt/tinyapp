@@ -5,36 +5,12 @@ const bcrypt = require('bcryptjs');
 const app = express();
 const PORT = 8080;
 
-const urlDatabase = {
-  b6UTxQ: {
-    longURL: "https://www.google.ca",
-    userID: "user3t402k"
-  },
-  abcdef: {
-    longURL: "https://www.google.ca",
-    userID: "user999999"
-  }
-};
-
-const users = {
-  user3t402k: {
-    id: 'user3t402k',
-    email: 'test@gmail.com',
-    password: bcrypt.hashSync('test', 10)
-  },
-  user999999: {
-    id: 'user999999',
-    email: 'a@a.com',
-    password: bcrypt.hashSync('test', 10)
-  }
-};
-
 const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 
-const isEmailRegistered = (email) => {
-  for (const user in users) {
-    if (users[user].email === email) {
-      return users[user].id;
+const getUserByEmail = (email, database) => {
+  for (const user in database) {
+    if (database[user].email === email) {
+      return database[user].id;
     }
   }
   return false;
@@ -58,6 +34,29 @@ const urlsForUser = (id) => {
 const doesUserOwnURL = (id, shortURL) => {
   const usersURLs = urlsForUser(id);
   return usersURLs[shortURL] !== undefined;
+};
+const urlDatabase = {
+  b6UTxQ: {
+    longURL: "https://www.google.ca",
+    userID: "user3t402k"
+  },
+  abcdef: {
+    longURL: "https://www.google.ca",
+    userID: "user999999"
+  }
+};
+
+const users = {
+  user3t402k: {
+    id: 'user3t402k',
+    email: 'test@gmail.com',
+    password: bcrypt.hashSync('test', 10)
+  },
+  user999999: {
+    id: 'user999999',
+    email: 'a@a.com',
+    password: bcrypt.hashSync('test', 10)
+  }
 };
 
 // ~*~*~*~*~*~* MIDDLEWARE ~*~*~*~*~*~*
@@ -176,7 +175,7 @@ app.post('/login', (req, res)=>{
   if (!email || !password) {
     return res.status(400).send('You must provide an email and a password to login');
   }
-  const userID = isEmailRegistered(email);
+  const userID = getUserByEmail(email, users);
   if (!userID || !isPasswordCorrect(userID, password)) {
     return res.status(403).send('Invalid email or password.');
   }
@@ -204,7 +203,7 @@ app.post('/register', (req, res)=>{
   if (!email || !password) {
     return res.status(400).send('You must provide an email and a password to register for an account.');
   }
-  if (isEmailRegistered(email)) {
+  if (getUserByEmail(email, users)) {
     return res.status(400).send('An account has already been created with this email address.');
   }
   const userID = `user${generateRandomString()}`;
