@@ -127,6 +127,7 @@ app.get('/u/:id', (req,res)=>{
   const {longURL} = urlDatabase[id];
   const visitorID = `v_${generateRandomString()}` || req.session.visitorID;
   const visit = new Visit(visitorID);
+  urlDatabase[id].addVisit(visit);
   req.session.visitorID = visitorID;
   res.redirect(longURL);
 });
