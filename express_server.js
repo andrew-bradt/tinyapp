@@ -4,29 +4,14 @@ const cookieSession = require('cookie-session');
 const bcrypt = require('bcryptjs');
 const app = express();
 const PORT = 8080;
-const {getUserByEmail} = require('./helpers');
+const {getUserByEmail, generateRandomString, urlsForUser, doesUserOwnURL} = require('./helpers');
 
-const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 
 const isPasswordCorrect = (id, password) => {
   return (bcrypt.compareSync(password, users[id].password)) ? id : false;
 };
 
-const urlsForUser = (id) => {
-  const urls = {};
-  for (const shortURL in urlDatabase) {
-    const {userID, longURL} = urlDatabase[shortURL];
-    if (userID === id) {
-      urls[shortURL] = longURL;
-    }
-  }
-  return urls;
-};
 
-const doesUserOwnURL = (id, shortURL) => {
-  const usersURLs = urlsForUser(id);
-  return usersURLs[shortURL] !== undefined;
-};
 const urlDatabase = {
   b6UTxQ: {
     longURL: "https://www.google.ca",

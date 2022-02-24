@@ -6,6 +6,27 @@ const getUserByEmail = (email, database) => {
   }
 };
 
+const urlsForUser = (id, database) => {
+  const urls = {};
+  for (const shortURL in database) {
+    const {userID, longURL} = database[shortURL];
+    if (userID === id) {
+      urls[shortURL] = longURL;
+    }
+  }
+  return urls;
+};
+
+const doesUserOwnURL = (id, shortURL) => {
+  const usersURLs = urlsForUser(id);
+  return usersURLs[shortURL] !== undefined;
+};
+
+const generateRandomString = () => Math.random().toString(36).slice(2, 8);
+
 module.exports = {
-  getUserByEmail
+  getUserByEmail,
+  generateRandomString,
+  urlsForUser,
+  doesUserOwnURL
 };
