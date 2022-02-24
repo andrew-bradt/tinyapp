@@ -84,6 +84,21 @@ app.get('/urls/new', (req, res)=>{
 
 
 
+// app.get('/urls/:id', (req, res)=>{
+//   const {id} = req.params;
+//   const userID = req.session['user_id'];
+//   const ownedURLs = urlsForUser(userID, urlDatabase);
+//   if (!doesUserOwnURL(ownedURLs, id)) {
+//     return res.status(403).send('Resource does not exist or you are unauthorized.');
+//   }
+//   const templateVars = {
+//     user: users[userID],
+//     id,
+//     longURL: urlDatabase[id].longURL
+//   };
+//   res.render('urls_show', templateVars);
+// });
+
 app.get('/urls/:id', (req, res)=>{
   const {id} = req.params;
   const userID = req.session['user_id'];
@@ -94,7 +109,7 @@ app.get('/urls/:id', (req, res)=>{
   const templateVars = {
     user: users[userID],
     id,
-    longURL: urlDatabase[id].longURL
+    url: urlDatabase[id]
   };
   res.render('urls_show', templateVars);
 });
