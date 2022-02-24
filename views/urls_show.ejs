@@ -21,7 +21,7 @@
         <h1>Edit</h1>
       </div>
       <div class="card-body">
-        <form action="/urls/<%= shortURL %>" method="POST">
+        <form action="/urls/<%= shortURL %>?_method=PUT" method="POST">
         <label class="card-text" for="longURL">New URL:</label>
         <input type="text" placeholder="<%= longURL %>" name="longURL" style="width: 300px; margin: 1em;">
         <input class="btn btn-primary" type="submit">
