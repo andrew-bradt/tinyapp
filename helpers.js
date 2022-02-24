@@ -4,7 +4,6 @@ const getUserByEmail = (email, database) => {
       return database[user].id;
     }
   }
-  return false;
 };
 
 module.exports = {
