@@ -1,51 +1,36 @@
+// PACKAGE IMPORTS
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const methodOverride = require('method-override');
 const bcrypt = require('bcryptjs');
-const app = express();
-const PORT = 8080;
-const {getUserByEmail, generateRandomString, urlsForUser, doesUserOwnURL} = require('./helpers');
+
+// CONSTANTS, DATABASES, CLASSES, HELPER FUNCTIONS
+const {PORT} = require('./constants');
+const {users, urlDatabase} = require('./databases');
+
 const {Visit, URL} = require('./entities/entities');
 
+const {getUserByEmail, generateRandomString, urlsForUser, doesUserOwnURL} = require('./helpers');
 const isPasswordCorrect = (id, password) => {
   return (bcrypt.compareSync(password, users[id].password)) ? id : false;
 };
 
-const urlDatabase = {
-  b6UTxQ: {
-    longURL: "https://www.google.ca",
-    userID: "user3t402k"
-  },
-  abcdef: {
-    longURL: "https://www.google.ca",
-    userID: "user999999"
-  }
-};
+// APP, MIDDLEWARE, TEMPLATE ENGINE
+const app = express();
 
-const users = {
-  user3t402k: {
-    userID: 'user3t402k',
-    email: 'test@gmail.com',
-    password: bcrypt.hashSync('test', 10)
-  },
-  user999999: {
-    userID: 'user999999',
-    email: 'a@a.com',
-    password: bcrypt.hashSync('test', 10)
-  }
-};
-
-// ~*~*~*~*~*~* MIDDLEWARE ~*~*~*~*~*~*
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieSession({
   name: 'session',
   keys: ['akjsdf', 'ahsdjkfhakjsdff', 'ahjsdkfhkasdf']
 }));
+
 app.set('view engine', 'ejs');
 
-// ~*~*~*~*~*~* ENDPOINTS ~*~*~*~*~*~*
+// ENDPOINTS
+
+//    PATH:         /
 app.get('/', (req, res)=>{
   if (req.session['user_id']) {
     return res.redirect('/urls');
@@ -53,7 +38,7 @@ app.get('/', (req, res)=>{
   res.redirect('/login');
 });
 
-
+//    PATH:          /urls
 app.get('/urls', (req, res)=>{
   const userID = req.session['user_id'];
   const templateVars = {
@@ -76,7 +61,7 @@ app.post('/urls', (req, res)=>{
 });
 
 
-
+//    PATH:          /urls/new
 app.get('/urls/new', (req, res)=>{
   if (!req.session['user_id']) {
     return res.redirect('/login');
@@ -86,22 +71,7 @@ app.get('/urls/new', (req, res)=>{
 });
 
 
-
-// app.get('/urls/:id', (req, res)=>{
-//   const {id} = req.params;
-//   const userID = req.session['user_id'];
-//   const ownedURLs = urlsForUser(userID, urlDatabase);
-//   if (!doesUserOwnURL(ownedURLs, id)) {
-//     return res.status(403).send('Resource does not exist or you are unauthorized.');
-//   }
-//   const templateVars = {
-//     user: users[userID],
-//     id,
-//     longURL: urlDatabase[id].longURL
-//   };
-//   res.render('urls_show', templateVars);
-// });
-
+//    PATH:          /urls/:id
 app.get('/urls/:id', (req, res)=>{
   const {id} = req.params;
   const userID = req.session['user_id'];
@@ -140,6 +110,8 @@ app.delete('/urls/:id', (req, res)=>{
   res.redirect('/urls');
 });
 
+
+//    PATH:          /u/:id
 app.get('/u/:id', (req,res)=>{
   const {id} = req.params;
   const {longURL} = urlDatabase[id];
@@ -149,14 +121,10 @@ app.get('/u/:id', (req,res)=>{
   const visit = new Visit(req.session.visitorID);
   urlDatabase[id].addVisit(visit);
   res.redirect(longURL);
-  console.log(urlDatabase[id].analytics);
 });
 
 
-app.get('/urls.json', (req, res)=>{
-  res.json(urlDatabase);
-});
-
+//    PATH:          /login
 app.get('/login', (req, res)=>{
   if (req.session['user_id']) {
     return res.redirect('/urls');
@@ -174,7 +142,6 @@ app.post('/login', (req, res)=>{
     return res.status(400).send('You must provide an email and a password to login');
   }
   const userID = getUserByEmail(email, users);
-  console.log('userID in post/login', userID);
   if (!userID || !isPasswordCorrect(userID, password)) {
     return res.status(403).send('Invalid email or password.');
   }
@@ -182,11 +149,13 @@ app.post('/login', (req, res)=>{
   res.redirect('/urls');
 });
 
+//    PATH:          /logout
 app.post('/logout', (req, res)=>{
   req.session = null;
   res.redirect('/urls');
 });
 
+//    PATH:          /register
 app.get('/register', (req, res)=>{
   if (req.session['user_id']) {
     return res.redirect('/urls');
@@ -214,10 +183,9 @@ app.post('/register', (req, res)=>{
   users[userID] = user;
   req.session['user_id'] = userID;
   res.redirect('/urls');
-  console.log('users after registering', users);
 });
-// ~*~*~*~*~*~*~*~*~*~*~*~*
 
+// Listening
 app.listen(PORT, ()=>{
   console.log(`Example app listening on port ${PORT}!`);
 });
