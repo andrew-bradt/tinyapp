@@ -13,24 +13,24 @@ const isPasswordCorrect = (id, password) => {
 };
 
 const urlDatabase = {
-  // b6UTxQ: {
-  //   longURL: "https://www.google.ca",
-  //   userID: "user3t402k"
-  // },
-  // abcdef: {
-  //   longURL: "https://www.google.ca",
-  //   userID: "user999999"
-  // }
+  b6UTxQ: {
+    longURL: "https://www.google.ca",
+    userID: "user3t402k"
+  },
+  abcdef: {
+    longURL: "https://www.google.ca",
+    userID: "user999999"
+  }
 };
 
 const users = {
   user3t402k: {
-    id: 'user3t402k',
+    userID: 'user3t402k',
     email: 'test@gmail.com',
     password: bcrypt.hashSync('test', 10)
   },
   user999999: {
-    id: 'user999999',
+    userID: 'user999999',
     email: 'a@a.com',
     password: bcrypt.hashSync('test', 10)
   }
