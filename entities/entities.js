@@ -32,6 +32,11 @@ class URL {
   get uniqueVisitors() {
     return this.uniqueVisitors.length;
   }
+  get analytics() {
+    const {totalVisits, visitorLog} = this._analytics;
+    const {uniqueVisitors} = this;
+    return { totalVisits, visitorLog, uniqueVisitors };
+  }
   addVisit(visit) {
     this._incrementTotalVisits();
     this._addUniqueVisitor(visit.visitorID);
