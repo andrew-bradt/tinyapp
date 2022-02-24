@@ -7,9 +7,12 @@ class BlankAnalytics {
 }
 
 class Visit {
-  constructor({timestamp, visitorID}) {
-    this.timestamp = timestamp;
+  constructor(visitorID) {
+    this.timestamp = this.genTimestamp();
     this.visitorID = visitorID;
+  }
+  genTimestamp() {
+    return new Date().toUTCString();
   }
 }
 
