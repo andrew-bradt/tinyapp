@@ -4,17 +4,9 @@ const cookieSession = require('cookie-session');
 const bcrypt = require('bcryptjs');
 const app = express();
 const PORT = 8080;
+const {getUserByEmail} = require('./helpers');
 
 const generateRandomString = () => Math.random().toString(36).slice(2, 8);
-
-const getUserByEmail = (email, database) => {
-  for (const user in database) {
-    if (database[user].email === email) {
-      return database[user].id;
-    }
-  }
-  return false;
-};
 
 const isPasswordCorrect = (id, password) => {
   return (bcrypt.compareSync(password, users[id].password)) ? id : false;
