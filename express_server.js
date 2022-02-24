@@ -113,19 +113,16 @@ app.post('/urls/:shortURL', (req, res)=>{
   res.redirect('/urls');
 });
 
-
-
-app.post('/urls/:shortURL/delete', (req, res)=>{
-  const userID = req.cookies['user_id'];
+app.delete('/urls/:shortURL', (req, res)=>{
+  const userID = req.session['user_id'];
   const {shortURL} = req.params;
-  if (!doesUserOwnURL(userID, shortURL)) {
+  const ownedURLs = urlsForUser(userID, urlDatabase);
+  if (!doesUserOwnURL(ownedURLs, shortURL)) {
     return res.status(403).send('Resource does not exist or you are unauthorized.');
   }
   delete urlDatabase[shortURL];
   res.redirect('/urls');
 });
-
-
 
 app.get('/u/:shortURL', (req,res)=>{
   const {shortURL} = req.params;
