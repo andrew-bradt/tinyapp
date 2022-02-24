@@ -78,12 +78,11 @@ app.post('/urls', (req, res)=>{
     return res.status(403).send('You must be signed in to add a URL');
   }
   const {longURL} = req.body;
-  const shortURL = generateRandomString();
-  urlDatabase[shortURL] = {
-    longURL,
-    userID
-  };
-  res.redirect(`/urls/${shortURL}`);
+  const id = generateRandomString();
+  const urlObj = new URL({userID, longURL});
+  urlDatabase[id] = urlObj;
+  res.redirect(`/urls/${id}`);
+  console.log(urlDatabase);
 });
 
 
