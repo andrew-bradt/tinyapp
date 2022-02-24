@@ -14,12 +14,14 @@
         <a class="nav-item nav-link" href="/register">Register</a>
         <% } %>
       </div>
+      <% if(user) { %>
+        <div class="navbar-nav" style="margin-left: auto;">
+          <form class="d-inline-flex" action="/logout" method="POST">
+            <p class='nav-item' style="color: rgba(255,255,255,.5);"class="nav-item">Logged in as: <%= user.email %>!</p>
+            <button class="nav-item btn btn-primary">Logoff</button>
+          </form>
+        </div>
+      <% } %> 
     </div>
-    <% if(user) { %>
-      <form class='d-flex' action="/logout" method="POST">
-        <p style="color: rgba(255,255,255,.5);"class="nav-item">Logged in as: <%= user.email %>!</p>
-        <button class="nav-item btn btn-primary">Logoff</button>
-      </form>
-    <% } %>
   </nav>
 </header>
