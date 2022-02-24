@@ -1,4 +1,4 @@
-class BlankAnalytics {
+class AnalyticsTemplate {
   constructor() {
     this.totalVisits = 0;
     this.uniqueVisitors = [];
@@ -20,7 +20,7 @@ class URL {
   constructor({userID, longURL}) {
     this._longURL = longURL;
     this.userID = userID;
-    this._analytics = new BlankAnalytics();
+    this._analytics = new AnalyticsTemplate();
   }
   get longURL() {
     return this._longURL;
@@ -53,7 +53,7 @@ class URL {
     this._analytics.visitorLog.push(visit);
   }
   _resetAnalytics() {
-    this._analytics = new BlankAnalytics;
+    this._analytics = new AnalyticsTemplate;
   }
 }
 
