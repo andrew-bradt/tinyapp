@@ -122,16 +122,6 @@ app.delete('/urls/:id', (req, res)=>{
   res.redirect('/urls');
 });
 
-// app.get('/u/:id', (req,res)=>{
-//   const {id} = req.params;
-//   const {longURL} = urlDatabase[id];
-//   const visitorID = `v_${generateRandomString()}` || req.session.visitorID;
-//   const visit = new Visit(visitorID);
-//   urlDatabase[id].addVisit(visit);
-//   req.session.visitorID = visitorID;
-//   res.redirect(longURL);
-//   console.log(urlDatabase[id].analytics);
-// });
 app.get('/u/:id', (req,res)=>{
   const {id} = req.params;
   const {longURL} = urlDatabase[id];
@@ -141,7 +131,7 @@ app.get('/u/:id', (req,res)=>{
   const visit = new Visit(req.session.visitorID);
   urlDatabase[id].addVisit(visit);
   res.redirect(longURL);
-  console.log(urlDatabase[id]);
+  console.log(urlDatabase[id].analytics);
 });
 
 

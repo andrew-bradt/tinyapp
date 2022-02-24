@@ -29,12 +29,9 @@ class URL {
     this._longURL = newURL;
     this._resetAnalytics();
   }
-  get uniqueVisitors() {
-    return this.uniqueVisitors.length;
-  }
   get analytics() {
-    const {totalVisits, visitorLog} = this._analytics;
-    return { totalVisits, visitorLog, uniqueVisitors: this.uniqueVisitors };
+    const {totalVisits, visitorLog, uniqueVisitors} = this._analytics;
+    return { totalVisits, visitorLog, uniqueVisitors: uniqueVisitors.length };
   }
   addVisit(visit) {
     this._incrementTotalVisits();
