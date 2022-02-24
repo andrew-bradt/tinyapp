@@ -41,7 +41,7 @@ app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieSession({
   name: 'session',
-  keys: ['user_id']
+  keys: ['akjsdf', 'ahsdjkfhakjsdff', 'ahjsdkfhkasdf']
 }));
 app.set('view engine', 'ejs');
 
@@ -70,7 +70,6 @@ app.post('/urls', (req, res)=>{
   const urlObj = new URL({userID, longURL});
   urlDatabase[id] = urlObj;
   res.redirect(`/urls/${id}`);
-  console.log(urlDatabase);
 });
 
 
@@ -126,6 +125,9 @@ app.delete('/urls/:id', (req, res)=>{
 app.get('/u/:id', (req,res)=>{
   const {id} = req.params;
   const {longURL} = urlDatabase[id];
+  const visitorID = `v_${generateRandomString()}` || req.session.visitorID;
+  const visit = new Visit(visitorID);
+  req.session.visitorID = visitorID;
   res.redirect(longURL);
 });
 
