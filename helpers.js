@@ -17,10 +17,7 @@ const urlsForUser = (id, database) => {
   return urls;
 };
 
-const doesUserOwnURL = (id, shortURL) => {
-  const usersURLs = urlsForUser(id);
-  return usersURLs[shortURL] !== undefined;
-};
+const doesUserOwnURL = (ownedURLs, shortURL) => ownedURLs[shortURL] !== undefined;
 
 const generateRandomString = () => Math.random().toString(36).slice(2, 8);
 
