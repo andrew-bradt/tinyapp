@@ -12,6 +12,13 @@ const isPasswordCorrect = (id, password) => {
   return (bcrypt.compareSync(password, users[id].password)) ? id : false;
 };
 
+const analyticsDatabase = {
+  totalVisits : 0,
+  totalUniqueVisitors: 0,
+  visitorLog: {
+    
+  }
+};
 
 const urlDatabase = {
   b6UTxQ: {
