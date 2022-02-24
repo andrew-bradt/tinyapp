@@ -90,7 +90,8 @@ app.get('/urls/new', (req, res)=>{
 app.get('/urls/:shortURL', (req, res)=>{
   const {shortURL} = req.params;
   const userID = req.session['user_id'];
-  if (!doesUserOwnURL(userID, shortURL)) {
+  const ownedURLs = urlsForUser(userID, urlDatabase);
+  if (!doesUserOwnURL(ownedURLs, shortURL)) {
     return res.status(403).send('Resource does not exist or you are unauthorized.');
   }
   const templateVars = {
