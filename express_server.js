@@ -122,16 +122,27 @@ app.delete('/urls/:id', (req, res)=>{
   res.redirect('/urls');
 });
 
+// app.get('/u/:id', (req,res)=>{
+//   const {id} = req.params;
+//   const {longURL} = urlDatabase[id];
+//   const visitorID = `v_${generateRandomString()}` || req.session.visitorID;
+//   const visit = new Visit(visitorID);
+//   urlDatabase[id].addVisit(visit);
+//   req.session.visitorID = visitorID;
+//   res.redirect(longURL);
+//   console.log(urlDatabase[id].analytics);
+// });
 app.get('/u/:id', (req,res)=>{
   const {id} = req.params;
   const {longURL} = urlDatabase[id];
-  const visitorID = `v_${generateRandomString()}` || req.session.visitorID;
-  const visit = new Visit(visitorID);
+  if (!req.session.visitorID) {
+    req.session.visitorID = `v_${generateRandomString()}`;
+  }
+  const visit = new Visit(req.session.visitorID);
   urlDatabase[id].addVisit(visit);
-  req.session.visitorID = visitorID;
   res.redirect(longURL);
+  console.log(urlDatabase[id]);
 });
-
 
 
 app.get('/urls.json', (req, res)=>{
@@ -192,7 +203,7 @@ app.post('/register', (req, res)=>{
     password: bcrypt.hashSync(password, 10)
   };
   users[userID] = user;
-  req.session['user_id'] =  userID;
+  req.session['user_id'] = userID;
   res.redirect('/urls');
 });
 // ~*~*~*~*~*~*~*~*~*~*~*~*

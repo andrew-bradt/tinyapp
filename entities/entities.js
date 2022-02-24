@@ -34,8 +34,7 @@ class URL {
   }
   get analytics() {
     const {totalVisits, visitorLog} = this._analytics;
-    const {uniqueVisitors} = this;
-    return { totalVisits, visitorLog, uniqueVisitors };
+    return { totalVisits, visitorLog, uniqueVisitors: this.uniqueVisitors };
   }
   addVisit(visit) {
     this._incrementTotalVisits();
