@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
 const {PORT} = require('./constants');
 const {users, urlDatabase} = require('./databases');
 
-const {Visit, URL} = require('./entities/entities');
+const {Visit, URL} = require('./classes/classes');
 
 const {getUserByEmail, generateRandomString, urlsForUser, doesUserOwnURL} = require('./helpers');
 const isPasswordCorrect = (id, password) => {
@@ -119,7 +119,7 @@ app.get('/u/:id', (req,res)=>{
     req.session.visitorID = `v_${generateRandomString()}`;
   }
   const visit = new Visit(req.session.visitorID);
-  urlDatabase[id].addVisit(visit);
+  urlDatabase[id].logVisit(visit);
   res.redirect(longURL);
 });
 
