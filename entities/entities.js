@@ -25,7 +25,7 @@ class URL {
   get longURL() {
     return this._longURL;
   }
-  set longURL (newURL) {
+  set longURL(newURL) {
     this._longURL = newURL;
     this._resetAnalytics();
   }

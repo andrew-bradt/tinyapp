@@ -174,7 +174,7 @@ app.post('/register', (req, res)=>{
   if (getUserByEmail(email, users)) {
     return res.status(400).send('An account has already been created with this email address.');
   }
-  const userID = `user${generateRandomString()}`;
+  const userID = `u_${generateRandomString()}`;
   const user = {
     userID,
     email,
